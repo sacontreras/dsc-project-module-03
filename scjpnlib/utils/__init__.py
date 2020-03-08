@@ -8,7 +8,7 @@ from pandasql import sqldf
 # this function allows displaying dataframes using print() with pandas "pretty" HTML formatting
 #   so that multiple "pretty" displays of dataframes can be rendered "inline"
 #   default behavior (without specifying a range) is identical to that of df.head()
-def print_df(df, n = None, tail=False):
+def print_df(df, n=None, tail=False, show_count=True):
     pd.set_option('display.max_columns', None)
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_colwidth', None)
@@ -16,7 +16,9 @@ def print_df(df, n = None, tail=False):
     if n is None:
         n = len(df)
     display(HTML(df.head(n).to_html() if not tail else df.tail(n).to_html()))
-    display(HTML("<br>{} rows x {} columns<br><br>".format(min(n, len(df)), len(df.columns))))
+    
+    if show_count:
+        display(HTML("<br>{} rows x {} columns<br><br>".format(min(n, len(df)), len(df.columns))))
 
     pd.reset_option('display.max_columns')
     pd.reset_option('display.max_rows')
